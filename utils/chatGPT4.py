@@ -31,7 +31,7 @@ class TextpromptGen(object):
             save_dir = Path(self.root_path)
         save_dir.mkdir(parents=True, exist_ok=True)
         try: 
-            output['background'][0] = self.generate_keywords(output['background'[0]])
+            output['background'][0] = self.generate_keywords(output['background'][0])
             with open(save_dir / 'scene_{}.json'.format(str(self.scene_num).zfill(2)), "w") as json_file:
                 json.dump(output, json_file, indent=4)
         except Exception as e:
