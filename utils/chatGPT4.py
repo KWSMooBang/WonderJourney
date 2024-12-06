@@ -64,12 +64,12 @@ class TextpromptGen(object):
                 'content': content
             }
         ]
-        response = openai.ChatCompletion.create(
+        response = openai.chat.completions.create(
             model=self.model,
             messages=messages,
             timeout=5,
         )
-        background = response['choices'][0]['message']['content']
+        background = response.choices[0].message.content
 
         return background.strip(".")
     
@@ -101,6 +101,7 @@ class TextpromptGen(object):
                     scene_name = scene_name[0]
                 scene_content = "\nScene " + str(self.scene_num) + ": " + "{Scene name: " + str(scene_name).strip(".") \
                     + "; Entities: " + str(entities) + "; Style: " + str(style) + "}"
+            self.content += scene_content
         else:
             assert self.scene_num > 0, "To regenerate the scene description, you should have at least one scene content as prompt."
 
@@ -131,12 +132,12 @@ class TextpromptGen(object):
 
         for i in range(10):
             try:
-                response = openai.ChatCompletion.create(
+                response = openai.chat.completions.create(
                     model=self.model,
                     messages=messages,
                     timeout=5
                 )
-                response = response['choices'][0]['message']['content']
+                response = response.choices[0].message.content
                 try:
                     print(response)
                     output = eval(response)
